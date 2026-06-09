@@ -31,7 +31,9 @@ func (u *transactionUsecase) CreateTransaction(ctx context.Context, userID uuid.
 		return nil, errors.New("insufficient balance")
 	}
 
-	user.Balance -= amount
+	if err := u.userRepo.UpdateBalance(ctx, userID, -amount); err != nil {
+		return nil, err
+	}
 
 	newTransaction := &domain.Transaction{
 		ID:        uuid.New(),

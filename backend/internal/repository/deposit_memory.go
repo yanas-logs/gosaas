@@ -30,7 +30,7 @@ func (r *depositMemoryRepository) Create(ctx context.Context, deposit *domain.De
 
 func (r *depositMemoryRepository) GetByID(ctx context.Context, id uuid.UUID) (*domain.Deposit, error) {
 	r.mu.RLock()
-	defer r.mu.Unlock()
+	defer r.mu.RUnlock()
 
 	deposit, ok := r.deposits[id]
 	if !ok {

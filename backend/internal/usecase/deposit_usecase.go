@@ -21,12 +21,14 @@ func NewDepositUsecase(repo domain.DepositRepository, userRepo domain.UserReposi
 }
 
 func (u *depositUsecase) RequestDeposit(ctx context.Context, userID uuid.UUID, amount float64) (*domain.Deposit, error) {
-	user, err := u.userRepo.GetByID(ctx, userID)
-	if err != nil {
+	if _, err := u.userRepo.GetByID(ctx, userID); err != nil {
 		return nil, err
 	}
 
-	user.Balance += amount
+	err := u.userRepo.UpdateBalance(ctx, userID, amount)
+	if err != nil {
+		return nil, err
+	}
 
 	newDeposit := &domain.Deposit{
 		ID:        uuid.New(),

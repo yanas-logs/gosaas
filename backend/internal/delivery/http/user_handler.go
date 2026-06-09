@@ -19,13 +19,14 @@ func NewUserHandler(router fiber.Router, usecase domain.UserUsecase) {
 	router.Post("/register", handler.Register)
 	router.Post("/login", handler.Login)
 	router.Post("/logout", handler.Logout)
-	
+
 	protected := router.Group("", JWTMiddleware())
 	protected.Get("/profile", handler.GetProfile)
 }
 
 func (h *UserHandler) Register(c fiber.Ctx) error {
 	type RegisterRequest struct {
+		TenantID string `json:"tenant_id"`
 		Name     string `json:"name"`
 		Email    string `json:"email"`
 		Password string `json:"password"`
@@ -36,7 +37,12 @@ func (h *UserHandler) Register(c fiber.Ctx) error {
 		return c.Status(fiber.StatusBadRequest).JSON(fiber.Map{"error": "invalid input"})
 	}
 
-	user, err := h.userUsecase.Register(c.Context(), req.Name, req.Email, req.Password)
+	tenantID, err := uuid.Parse(req.TenantID)
+	if err != nil {
+		return c.Status(fiber.StatusBadRequest).JSON(fiber.Map{"error": "invalid tenant_id"})
+	}
+
+	user, err := h.userUsecase.Register(c.Context(), tenantID, req.Name, req.Email, req.Password)
 	if err != nil {
 		return c.Status(fiber.StatusConflict).JSON(fiber.Map{"error": err.Error()})
 	}

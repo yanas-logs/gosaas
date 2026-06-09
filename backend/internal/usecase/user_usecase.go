@@ -3,8 +3,9 @@ package usecase
 import (
 	"context"
 	"errors"
-	"time"
 	"id-topup-saas/backend/internal/domain"
+	"time"
+
 	"github.com/golang-jwt/jwt/v5"
 	"github.com/google/uuid"
 	"golang.org/x/crypto/bcrypt"
@@ -22,7 +23,11 @@ func NewUserUsecase(repo domain.UserRepository) domain.UserUsecase {
 	}
 }
 
-func (u *userUsecase) Register(ctx context.Context, name, email, password string) (*domain.User, error) {
+func (u *userUsecase) Register(ctx context.Context, tenantID uuid.UUID, name, email, password string) (*domain.User, error) {
+	if tenantID == uuid.Nil {
+		tenantID = uuid.New()
+	}
+
 	existingUser, _ := u.userRepo.GetByEmail(ctx, email)
 	if existingUser != nil {
 		return nil, errors.New("email already register")
@@ -35,6 +40,7 @@ func (u *userUsecase) Register(ctx context.Context, name, email, password string
 
 	newUser := &domain.User{
 		ID:        uuid.New(),
+		TenantID:  tenantID,
 		Name:      name,
 		Email:     email,
 		Password:  string(hashedPassword),
