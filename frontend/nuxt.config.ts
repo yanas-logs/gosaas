@@ -1,5 +1,12 @@
-// https://nuxt.com/docs/api/configuration/nuxt-config
+// nuxt.config.ts
 export default defineNuxtConfig({
-  compatibilityDate: '2025-07-15',
-  devtools: { enabled: true }
+  compatibilityDate: '2026-06-16', // Mengikuti waktu sistem Anda saat ini
+
+  modules: ['@nuxt/ui'],
+  css: ['./app/asset/css/main.css'],
+  devtools: { enabled: true },
+  
+  future: {
+    compatibilityVersion: 4
+  }
 })
