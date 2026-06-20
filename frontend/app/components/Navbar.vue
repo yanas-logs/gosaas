@@ -24,12 +24,9 @@
 
         <USelect
           v-model="currentLang"
-          :options="languages"
-          option-attribute="label"
-          value-attribute="value"
+          :items="languages"
           size="sm"
           class="w-24"
-          @update:model-value="handleLanguageChange"
         />
 
         <UButton color="primary" variant="solid" size="sm" @click="openLoginModal">
@@ -44,9 +41,10 @@
 
 <script setup>
 import { useNavbarLogic } from '@/composables/useNavbarLogic.js'
+import { useLanguage } from '@/composables/useLanguage.js'
 
-const { isDark, searchQuery, handleSearch, currentLang, languages, handleLanguageChange, links } = useNavbarLogic()
-const { t } = useI18n()
+const { isDark, searchQuery, handleSearch, currentLang, languages, links } = useNavbarLogic()
+const { t } = useLanguage()
 const { open } = useLoginModal()
 
 const openLoginModal = () => {

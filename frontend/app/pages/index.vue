@@ -1,4 +1,3 @@
-<!-- app/pages/index.vue -->
 <template>
   <div class="flex min-h-[calc(100vh-4rem)] flex-col items-center justify-center bg-gray-50 dark:bg-gray-950 p-4 text-center">
     <UCard class="w-full max-w-md shadow-md bg-white dark:bg-gray-900">
@@ -11,15 +10,15 @@
           Brand
         </h1>
         <p class="text-sm text-gray-600 dark:text-gray-400 mb-8 max-w-xs">
-          Selamat datang di platform gateway top-up multi-tenant. Mulai bisnis top-up game Anda sendiri dengan mudah.
+          {{ t('welcome') }}
         </p>
         
         <div class="flex flex-col sm:flex-row gap-3 w-full justify-center">
           <UButton to="/register" color="primary" variant="solid" size="lg" icon="i-heroicons-rocket-launch">
-            Mulai Sekarang
+            {{ t('startNow') }}
           </UButton>
           <UButton to="/login" color="gray" variant="outline" size="lg" icon="i-heroicons-arrow-right-end-on-rectangle">
-            Masuk Dashboard
+            {{ t('enterDashboard') }}
           </UButton>
         </div>
       </div>
@@ -28,7 +27,10 @@
 </template>
 
 <script setup>
-// Kita hapus middleware navigateTo('/login') agar halaman ini bisa diakses secara normal
+import { useLanguage } from '@/composables/useLanguage.js'
+
+const { t } = useLanguage()
+
 useHead({
   title: 'GoSaas Topup - Home'
 })

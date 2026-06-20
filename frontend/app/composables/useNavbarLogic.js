@@ -1,8 +1,10 @@
 import { ref, computed } from 'vue'
+import { useLanguage } from './useLanguage.js'
 
 export function useNavbarLogic() {
-  const { locale } = useI18n()
   const colorMode = useColorMode()
+  const { locale } = useLanguage()
+  
   const isDark = computed({
     get () { return colorMode.value === 'dark' },
     set () { colorMode.preference = colorMode.value === 'dark' ? 'light' : 'dark' }
@@ -15,14 +17,18 @@ export function useNavbarLogic() {
     }
   }
 
-  const currentLang = ref('ID')
+  const currentLang = computed({
+    get: () => locale.value,
+    set: (value) => { locale.value = value }
+  })
+
   const languages = [
     { label: 'ID', value: 'ID' },
     { label: 'EN', value: 'EN' }
   ]
+
   const handleLanguageChange = (value) => {
     currentLang.value = value
-    locale.value = value
   }
 
   const links = [
