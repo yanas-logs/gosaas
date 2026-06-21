@@ -37,14 +37,30 @@ export function useNavbarLogic() {
       icon: 'i-heroicons-home',
       to: '/'
     }, {
-      label: 'Fitur',
-      icon: 'i-heroicons-sparkles',
-      to: '#features'
+      label: 'Cek Transaksi',
+      icon: 'i-heroicons-magnifying-glass-circle',
+      to: '/cek-transaksi'
     }, {
-      label: 'Harga',
-      icon: 'i-heroicons-credit-card',
-      to: '#pricing'
+      label: 'Leaderboard',
+      icon: 'i-heroicons-trophy',
+      to: '/leaderboard'
+    }, {
+      label: 'Blog',
+      icon: 'i-heroicons-document-text',
+      to: '/blog'
+    }, {
+      label: 'Kalkulator',
+      icon: 'i-heroicons-calculator',
+      to: '/kalkulator'
     }]
+  ]
+
+  const moreOptions = [
+    [
+      { label: 'Option A', slot: 'option-a', to: '#option-a' },
+      { label: 'Option B', slot: 'option-b', to: '#option-b' },
+      { label: 'Option C', slot: 'option-c', to: '#option-c' }
+    ]
   ]
 
   return {
@@ -54,6 +70,7 @@ export function useNavbarLogic() {
     currentLang,
     languages,
     handleLanguageChange,
-    links
+    links,
+    moreOptions
   }
 }

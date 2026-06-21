@@ -6,10 +6,16 @@
         Logo Brand
       </NuxtLink>
 
-      <div class="hidden items-center gap-6 md:flex">
-        <UButton v-for="item in links[0]" :key="item.to" :to="item.to" color="neutral" variant="ghost" size="sm">
+      <div class="hidden items-center gap-2 md:flex">
+        <UButton v-for="item in links[0]" :key="item.to" :to="item.to" color="neutral" variant="ghost" size="sm" :icon="item.icon">
           {{ item.label }}
         </UButton>
+
+        <UDropdown :items="moreOptions" :mode="'click'" :popper="{ placement: 'bottom-start' }">
+          <UButton color="neutral" variant="ghost" size="sm" icon="i-heroicons-ellipsis-horizontal">
+            Lainnya
+          </UButton>
+        </UDropdown>
       </div>
 
       <div class="flex items-center gap-3">
@@ -43,7 +49,7 @@
 import { useNavbarLogic } from '@/composables/useNavbarLogic.js'
 import { useLanguage } from '@/composables/useLanguage.js'
 
-const { isDark, searchQuery, handleSearch, currentLang, languages, links } = useNavbarLogic()
+const { isDark, searchQuery, handleSearch, currentLang, languages, links, moreOptions } = useNavbarLogic()
 const { t } = useLanguage()
 const { open } = useLoginModal()
 
